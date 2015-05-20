@@ -1,0 +1,19 @@
+{
+  "name": "cerebellum-react",
+  "version": "1.0.0",
+  "description": "React helpers for Cerebellum.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react",
+    "cerebellum",
+    "isomorphic"
+  ],
+  "author": "Lari Hoppula",
+  "license": "MIT",
+  "dependencies": {
+    "native-promise-only": "^0.7.8-a"
+  }
+}
