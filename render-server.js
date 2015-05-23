@@ -16,8 +16,8 @@ function createRender(React, options) {
           : componentFactory(props);
 
         document("title").html(title);
-        document(`#${options.storeId}`).text(store.snapshot());
-        document(`#${options.appId}`).html(
+        document("#" + options.storeId).text(store.snapshot());
+        document("#" + options.appId).html(
           React.renderToString(containerComponent)
         );
 
