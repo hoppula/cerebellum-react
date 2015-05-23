@@ -14,9 +14,16 @@ module.exports.createTitle = function createTitle(component, storeProps, request
 };
 
 module.exports.createProps = function createProps(component, storeProps, request) {
-  if (component.preprocess === "function") {
+  if (typeof component.preprocess === "function") {
     return component.preprocess(storeProps, request);
   } else {
     return storeProps;
   }
+};
+
+module.exports.convertPropsToJS = function convertPropsToJS(props) {
+  return Object.keys(props).reduce(function(obj, key) {
+    obj[key] = props[key].toJS();
+    return obj;
+  }, {});
 };

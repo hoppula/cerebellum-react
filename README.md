@@ -52,6 +52,10 @@ Container components are useful if you need to set context for all child compone
 
 With prependTitle you can prepend text to beginning of document's title. Rest of the title will be read from your route component's `.title`.
 
+### convertProps (optional)
+
+If your app does not need immutable data structures, you can convert all props to plain JS objects with this option
+
 ### Usage:
 ```javascript
 import renderClient from 'cerebellum-react/render-client'
@@ -82,6 +86,10 @@ You can pass `containerComponent` function as option, the return value will be p
 ### prependTitle (optional)
 
 With prependTitle you can prepend text to beginning of document's title. Rest of the title will be read from your route component's `.title`.
+
+### convertProps (optional)
+
+If your app does not need immutable data structures, you can convert all props to plain JS objects with this option
 
 ### Usage:
 ```javascript

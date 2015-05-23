@@ -1,6 +1,6 @@
 {
   "name": "cerebellum-react",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "React helpers for Cerebellum.js",
   "main": "index.js",
   "scripts": {
