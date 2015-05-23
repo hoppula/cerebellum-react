@@ -10,7 +10,7 @@ function createRender(React, options) {
     return new Promise(function(resolve, reject) {
       return store.fetchAll(component.stores(request)).then(function(storeProps) {
         var props = helpers.createProps(component, storeProps, request);
-        var title = helpers.createTitle(component, storeProps, options.prependTitle);
+        var title = helpers.createTitle(component, storeProps, request, options.prependTitle);
         var containerComponent = typeof options.containerComponent === "function"
           ? options.containerComponent(store, componentFactory, props)
           : componentFactory(props);

@@ -6,7 +6,7 @@ This package contains `render-client` and `render-server` methods that you can u
 
 render-client & render-server bring some really useful static methods for your route components.
 
-### Component.title(storeProps)
+### Component.title(storeProps, request)
 
 With `.title` You can provide title for your route component. Can be either function or static string.
 
