@@ -1,10 +1,14 @@
 # Cerebellum React helpers
 
-This package contains `render-client` and `render-server` methods that you can use to create suitable cerebellum render methods for React.
+This package contains `route-handler`, `render-client` and `render-server` methods that you can use to create suitable Cerebellum route handler and render methods for a React app.
 
-## Component static methods
+## route-handler
 
-render-client & render-server bring some really useful static methods for your route components.
+### Component static methods
+
+When using `route-handler` in conjunction with `render-client` and `render-server` you get some really useful static methods for your route components.
+
+`route-handler` checks if your route returns a React component that defines `title` and `stores` properties and then returns it to be handled by `render-client` and `render-server`.
 
 ### Component.title(storeProps, request)
 
