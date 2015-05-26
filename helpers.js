@@ -1,7 +1,7 @@
 module.exports.createTitle = function createTitle(component, storeProps, request, prependTitle) {
   var title;
   if (typeof component.title === "function") {
-    title = component.title(storeProps, request);
+    title = component.title.call(this, storeProps, request);
   } else {
     title = component.title;
   }
@@ -15,7 +15,7 @@ module.exports.createTitle = function createTitle(component, storeProps, request
 
 module.exports.createProps = function createProps(component, storeProps, request) {
   if (typeof component.preprocess === "function") {
-    return component.preprocess(storeProps, request);
+    return component.preprocess.call(this, storeProps, request);
   } else {
     return storeProps;
   }
