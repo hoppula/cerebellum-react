@@ -1,23 +1,24 @@
-require('native-promise-only');
-var helpers = require('./helpers');
+import 'native-promise-only';
+import {
+  createTitle,
+  createProps,
+  convertPropsToJS
+} from './helpers';
 
-function createRender(React, options) {
-  options = options || {};
-
+function createRender(React, options={}) {
   return function render(component, request) {
-    var self = this;
-    var componentFactory = React.createFactory(component);
-    var store = this.store;
-    return new Promise(function(resolve, reject) {
-      return store.fetchAll(component.stores.call(self, request)).then(function(storeProps) {
+    const componentFactory = React.createFactory(component);
+    const store = this.store;
+    return new Promise((resolve, reject) => {
+      return store.fetchAll(component.stores.call(this, request)).then((storeProps) => {
         if (options.convertProps) {
-          storeProps = helpers.convertPropsToJS(storeProps);
+          storeProps = convertPropsToJS(storeProps);
         }
-        var props = helpers.createProps.call(self, component, storeProps, request);
-        var title = helpers.createTitle.call(self, component, storeProps, request, options.prependTitle);
+        const props = createProps.call(this, component, storeProps, request);
+        const title = createTitle.call(this, component, storeProps, request, options.prependTitle);
 
-        var containerComponent = typeof options.containerComponent === "function"
-          ? options.containerComponent.call(self, store, componentFactory, props)
+        const containerComponent = typeof options.containerComponent === "function"
+          ? options.containerComponent.call(this, store, componentFactory, props)
           : componentFactory(props);
 
         document.getElementsByTagName("title")[0].innerHTML = title;
@@ -25,10 +26,9 @@ function createRender(React, options) {
         return resolve(
           React.render(containerComponent, document.getElementById(options.appId))
         );
-
       }).catch(reject);
     });
   };
 }
 
-module.exports = createRender;
+export default createRender;

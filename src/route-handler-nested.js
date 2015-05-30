@@ -2,8 +2,10 @@
 // this is an optimization to keep routes pretty,
 // e.g. "/posts/:id": PostComponent
 
+// TODO: merge with route-handler.js
+
 function routeHandler(handler, params) {
-  if (handler.title && handler.stores) {
+  if (handler.components && handler.stores) {
     return handler;
   } else {
     return handler.apply(this, params);
