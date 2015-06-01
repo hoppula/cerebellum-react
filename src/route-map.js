@@ -25,7 +25,7 @@ function generateRouteMap(routes={}) {
   return flattenDeep(componentRoutes(routes)).reduce((routeMap, route) => {
     routeMap[route.url] = {
       components: route.components,
-      stores: route.components.map(component => component.stores)
+      stores: route.components.map(component => component.stores).filter(stores => stores)
     };
     return routeMap;
   }, {});

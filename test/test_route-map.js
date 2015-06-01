@@ -52,6 +52,10 @@ const RootComponent = {
   }
 };
 
+const SimpleComponent = {
+  title: "SimpleComponent"
+};
+
 const flatRoutes = {
   "/": FlatRootComponent
 };
@@ -59,6 +63,10 @@ const flatRoutes = {
 const nestedRoutes = {
   "/": RootComponent
 };
+
+const notDefinedRoutes = {
+  "/": SimpleComponent
+}
 
 describe('Route map', () => {
   describe('generateRouteMap', () => {
@@ -100,6 +108,17 @@ describe('Route map', () => {
         }
       };
       assert.deepEqual(generateRouteMap(nestedRoutes), expected);
+    });
+
+    it('should return empty stores array if stores function is not defined', () => {
+      const expected = {
+        "/": {
+          "components": [SimpleComponent],
+          "stores": []
+        }
+      };
+
+      assert.deepEqual(generateRouteMap(notDefinedRoutes), expected);
     });
   });
 });

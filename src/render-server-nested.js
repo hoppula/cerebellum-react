@@ -12,7 +12,8 @@ function createRender(React, options={}) {
     return new Promise((resolve, reject) => {
 
       const allStores = routeComponent.components.reduce((stores, component) => {
-        return {...stores, ...component.stores.call(this, request)};
+        const componentStores = component.stores ? component.stores.call(this, request) : {};
+        return {...stores, ...componentStores};
       }, {});
 
       return store.fetchAll(allStores).then((storeProps) => {
