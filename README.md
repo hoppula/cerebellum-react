@@ -114,3 +114,9 @@ options.render = renderServer(React, {
 
 ### Note
 You have to pass React as param because context gets always set as `undefined` if different React instance renders the root component.
+
+### TODO
+- [ ] Merge flat/nested renderers & route handlers
+- [ ] Add tests for all modules
+- [ ] Better documentation
+- [ ] Create single wrapper for all modules so you don't have to require three different modules to get going
