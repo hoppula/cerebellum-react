@@ -9,6 +9,7 @@ export default function CerebellumReact(Cerebellum, React, opts={}, context={}) 
   options.render = createRender(React, {
     appId: options.appId,
     prependTitle: options.prependTitle,
+    storeId: options.storeId,
     containerComponent: options.containerComponent
   });
 

@@ -17,7 +17,7 @@ class Document {
   }
 
   set snapshot(snapshot) {
-    if (this.storeId) {
+    if (this.environment === "server" && this.storeId) {
       this.document(`#${this.storeId}`).text(snapshot);
     }
   }
