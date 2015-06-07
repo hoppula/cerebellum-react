@@ -1,5 +1,5 @@
 import assert from 'assert';
-import routeHandler from '../route-handler-nested';
+import routeHandler from '../route-handler';
 
 const routeComponent = {
   components: [],

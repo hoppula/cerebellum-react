@@ -56,6 +56,13 @@ const SimpleComponent = {
   title: "SimpleComponent"
 };
 
+const SimpleRoutesComponent = {
+  title: "SimpleRoutesComponent",
+  routes: {
+    "posts": PostsComponent
+  }
+};
+
 const flatRoutes = {
   "/": FlatRootComponent
 };
@@ -66,7 +73,11 @@ const nestedRoutes = {
 
 const notDefinedRoutes = {
   "/": SimpleComponent
-}
+};
+
+const noParentStoresRoutes = {
+  "/": SimpleRoutesComponent
+};
 
 describe('Route map', () => {
 
@@ -77,16 +88,8 @@ describe('Route map', () => {
   it('should return proper route map flat routes', () => {
     const expected = {
       "/": {
-        "components": [
-          {
-            "title": "FlatRootComponent",
-            "routes": {},
-            "stores": FlatRootComponent.stores
-          }
-        ],
-        "stores": [
-          FlatRootComponent.stores
-        ]
+        "components": [FlatRootComponent],
+        "stores": [FlatRootComponent.stores]
       }
     };
     assert.deepEqual(generateRouteMap(flatRoutes), expected);
@@ -110,15 +113,29 @@ describe('Route map', () => {
     assert.deepEqual(generateRouteMap(nestedRoutes), expected);
   });
 
-  it('should return empty stores array if stores function is not defined', () => {
+  it('should return stores as empty object if stores function is not defined', () => {
     const expected = {
       "/": {
         "components": [SimpleComponent],
-        "stores": []
+        "stores": [{}]
       }
     };
 
     assert.deepEqual(generateRouteMap(notDefinedRoutes), expected);
+  });
+
+  it('should return properly indexed stores array even if parent component does not have any stores', () => {
+    const expected = {
+      "/": {
+        "components": [SimpleRoutesComponent],
+        "stores": [{}]
+      },
+      "/posts": {
+        "components": [SimpleRoutesComponent, PostsComponent],
+        "stores": [{}, PostsComponent.stores]
+      }
+    };
+    assert.deepEqual(generateRouteMap(noParentStoresRoutes), expected);
   });
 
 });

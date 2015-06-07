@@ -1,4 +1,5 @@
 import 'native-promise-only';
+import Document from './document';
 import {
   createTitle,
   createProps,
@@ -7,12 +8,20 @@ import {
 } from './helpers';
 
 function createRender(React, options={}) {
-  return function render(routeComponent, request) {
+  return function render(doc, routeComponent, request) {
+    const document = new Document({
+      document: doc,
+      appId: options.appId,
+      storeId: options.storeId
+    });
+
     const store = this.store;
     return new Promise((resolve, reject) => {
 
       const allStores = routeComponent.components.reduce((stores, component) => {
-        const componentStores = component.stores ? component.stores.call(this, request) : {};
+        const componentStores = typeof component.stores === "function"
+          ? component.stores.call(this, request)
+          : {};
         return {...stores, ...componentStores};
       }, {});
 
@@ -21,8 +30,11 @@ function createRender(React, options={}) {
           storeProps = convertPropsToJS({...storeProps});
         }
 
-        const propsList = routeComponent.stores.map((componentStores, i) => {
-          const componentProps = Object.keys(componentStores.call(this, request)).reduce((result, storeId) => {
+        const propsList = routeComponent.stores.map((componentStoresFn, i) => {
+          const componentStores = typeof componentStoresFn === "function"
+            ? componentStoresFn.call(this, request)
+            : {};
+          const componentProps = Object.keys(componentStores).reduce((result, storeId) => {
             result[storeId] = storeProps[storeId];
             return result;
           }, {});
@@ -34,16 +46,13 @@ function createRender(React, options={}) {
         const title = createTitle.call(this, lastComponent, {...storeProps}, request, options.prependTitle);
 
         const nestedRender = renderNestedComponents(React, routeComponent.components, propsList);
-
         const containerComponent = typeof options.containerComponent === "function"
           ? options.containerComponent.call(this, store, nestedRender)
           : nestedRender();
 
-        document.getElementsByTagName("title")[0].innerHTML = title;
-
-        return resolve(
-          React.render(containerComponent, document.getElementById(options.appId))
-        );
+        document.title = title;
+        document.snapshot = store.snapshot();
+        return resolve(document.render(React, containerComponent));
       }).catch(reject);
     });
   };

@@ -1,7 +1,7 @@
 import assert from 'assert';
 import React from 'react';
 import cheerio from 'cheerio';
-import renderServerNested from '../render-server-nested';
+import createRender from '../render';
 import 'native-promise-only';
 
 class RootComponent extends React.Component {
@@ -43,14 +43,14 @@ class ChildComponent extends React.Component {
 
 }
 
-describe('Render server nested', () => {
+describe('Render', () => {
   it('should properly render nested components with .stores definitions fetched as props', () => {
     const routeComponent = {
       components: [RootComponent, ChildComponent],
       stores: [RootComponent.stores, ChildComponent.stores]
     };
 
-    const render = renderServerNested(React, {
+    const render = createRender(React, {
       storeId: "test",
       appId: "app",
       prependTitle: "App - "
