@@ -1,9 +1,10 @@
 import 'native-promise-only';
 import Document from './document';
 import {
-  createTitle,
-  createProps,
   convertPropsToJS,
+  createProps,
+  createTitle,
+  reduceComponentStores,
   renderNestedComponents
 } from './helpers';
 
@@ -15,17 +16,16 @@ function createRender(React, options={}) {
       storeId: options.storeId
     });
 
+    // `this` is current render context
     const store = this.store;
+    const lastComponent = routeComponent.components[routeComponent.components.length - 1];
+
     return new Promise((resolve, reject) => {
+      return store.fetchAll(
+        reduceComponentStores.call(this, routeComponent.components, request)
+      ).then((storeProps) => {
 
-      const allStores = routeComponent.components.reduce((stores, component) => {
-        const componentStores = typeof component.stores === "function"
-          ? component.stores.call(this, request)
-          : {};
-        return {...stores, ...componentStores};
-      }, {});
-
-      return store.fetchAll(allStores).then((storeProps) => {
+        // should all props be converted from Immutable to plain JS
         if (options.convertProps) {
           storeProps = convertPropsToJS({...storeProps});
         }
@@ -34,15 +34,16 @@ function createRender(React, options={}) {
           const componentStores = typeof componentStoresFn === "function"
             ? componentStoresFn.call(this, request)
             : {};
+
           const componentProps = Object.keys(componentStores).reduce((result, storeId) => {
             result[storeId] = storeProps[storeId];
             return result;
           }, {});
+
           return createProps.call(this, routeComponent.components[i], componentProps, request);
         });
 
         // last child in components array defines the final page title
-        const lastComponent = routeComponent.components[routeComponent.components.length - 1];
         const title = createTitle.call(this, lastComponent, {...storeProps}, request, options.prependTitle);
 
         const nestedRender = renderNestedComponents(React, routeComponent.components, propsList);
@@ -52,7 +53,11 @@ function createRender(React, options={}) {
 
         document.title = title;
         document.snapshot = store.snapshot();
-        return resolve(document.render(React, containerComponent));
+
+        return resolve(
+          document.render(React, containerComponent)
+        );
+
       }).catch(reject);
     });
   };
