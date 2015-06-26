@@ -17,14 +17,14 @@ function createRender(React, options={}) {
     });
 
     // `this` is current render context
+    const API = this.api;
     const store = this.store;
     const lastComponent = routeComponent.components[routeComponent.components.length - 1];
 
     return new Promise((resolve, reject) => {
-      return store.fetchAll(
+      return API.fetchAll(
         reduceComponentStores.call(this, routeComponent.components, request)
       ).then((storeProps) => {
-
         // should all props be converted from Immutable to plain JS
         if (options.convertProps) {
           storeProps = convertPropsToJS({...storeProps});
