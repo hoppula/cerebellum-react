@@ -2,7 +2,7 @@ import createRender from './render';
 import routeHandler from './route-handler';
 import routeMap from './route-map';
 
-export default function CerebellumReact(Cerebellum, React, opts={}, context={}) {
+export default function CerebellumReact(Cerebellum, React, state, opts={}, context={}) {
   const options = {...opts};
   options.routeHandler = routeHandler;
   options.routes = routeMap(opts.routes);
@@ -13,5 +13,5 @@ export default function CerebellumReact(Cerebellum, React, opts={}, context={}) 
     containerComponent: options.containerComponent
   });
 
-  return Cerebellum(options, context);
+  return Cerebellum(state, options, context);
 }
