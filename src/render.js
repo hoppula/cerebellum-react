@@ -5,6 +5,7 @@ import {
   createProps,
   createTitle,
   reduceComponentStores,
+  reduceStatics,
   renderNestedComponents
 } from './helpers';
 
@@ -20,25 +21,25 @@ function createRender(React, options={}) {
     const API = this.api;
     const store = this.store;
     const lastComponent = routeComponent.components[routeComponent.components.length - 1];
+    const statics = reduceStatics(routeComponent.components, request, store);
 
     return new Promise((resolve, reject) => {
       return API.fetchAll(
-        reduceComponentStores.call(this, routeComponent.components, request)
+        reduceComponentStores.call(this, statics)
       ).then((storeProps) => {
         // should all props be converted from Immutable to plain JS
         if (options.convertProps) {
           storeProps = convertPropsToJS({...storeProps});
         }
 
-        const propsList = routeComponent.stores.map((componentStoresFn, i) => {
-          const componentStores = typeof componentStoresFn === "function"
-            ? componentStoresFn.call(this, request)
-            : {};
-
-          const componentProps = Object.keys(componentStores).reduce((result, storeId) => {
+        const propsList = statics.map((component, i) => {
+          const componentProps = Object.keys(component.stores).reduce((result, storeId) => {
             result[storeId] = storeProps[storeId];
             return result;
           }, {});
+
+          componentProps.actions = component.actions;
+          componentProps.events = component.events;
 
           return createProps.call(this, routeComponent.components[i], componentProps, request);
         });
