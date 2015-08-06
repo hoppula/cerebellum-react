@@ -45,24 +45,12 @@ export function reduceStatics(components, request, store) {
     }, {});
   }
 
-  function reduceEvents(componentEvents) {
-    return componentEvents.reduce((events, storeId) => {
-      events[storeId] = store.events(storeId);
-      return events;
-    }, {});
-  }
-
   return components.reduce((result, component) => {
     result.push({
       actions: reduceActions(
         typeof component.actions === "function"
         ? component.actions.call(this, request)
         : (component.actions || {})
-      ),
-      events: reduceEvents(
-        typeof component.events === "function"
-        ? component.events.call(this, request)
-        : (component.events || [])
       ),
       stores: (
         typeof component.stores === "function"

@@ -23,10 +23,7 @@ function componentRoutes(routes, baseUrl="", parentComponents=[]) {
 
 function generateRouteMap(routes={}) {
   return flattenDeep(componentRoutes(routes)).reduce((routeMap, route) => {
-    routeMap[route.url] = {
-      components: route.components,
-      stores: route.components.map(component => component.stores || {})
-    };
+    routeMap[route.url] = {components: route.components};
     return routeMap;
   }, {});
 }

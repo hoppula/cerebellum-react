@@ -39,7 +39,6 @@ function createRender(React, options={}) {
           }, {});
 
           componentProps.actions = component.actions;
-          componentProps.events = component.events;
 
           return createProps.call(this, routeComponent.components[i], componentProps, request);
         });
