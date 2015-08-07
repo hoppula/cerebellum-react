@@ -64,18 +64,23 @@ export function reduceStatics(components, request, store) {
 
 // TODO: clean
 export function renderNestedComponents(React, components, props) {
-  return function() {
+  return function(initProps={}) {
     return components.reduce((previousComponent, component, i) => {
       const componentFactory = React.createFactory(component);
       if (i === 0) {
         return (components.length === 1)
-          ? componentFactory(props[0])
+          ? componentFactory({...initProps, ...props[0]})
           : componentFactory;
       } else {
         const child = i === (components.length - 1)
           ? componentFactory(props[i])
           : componentFactory;
-        return previousComponent(props[i - 1], child);
+
+        if (i === 1) {
+          return previousComponent({...initProps, ...props[0]}, child);
+        } else {
+          return previousComponent(props[i - 1], child);
+        }
       }
     }, null);
   };
