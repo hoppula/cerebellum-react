@@ -46,8 +46,7 @@ class ChildComponent extends React.Component {
 describe('Render', () => {
   it('should properly render nested components with .stores definitions fetched as props', () => {
     const routeComponent = {
-      components: [RootComponent, ChildComponent],
-      stores: [RootComponent.stores, ChildComponent.stores]
+      components: [RootComponent, ChildComponent]
     };
 
     const render = createRender(React, {
@@ -66,14 +65,16 @@ describe('Render', () => {
     };
 
     const context = {
-      store: {
+      api: {
         // just pass the input values through,
         // it's enough for this test, we're not testing fetch here
         fetchAll: (stores) => {
           return new Promise((resolve) => {
             resolve(stores);
           });
-        },
+        }
+      },
+      store: {
         snapshot: () => {}
       }
     };

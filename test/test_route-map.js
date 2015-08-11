@@ -88,8 +88,7 @@ describe('Route map', () => {
   it('should return proper route map flat routes', () => {
     const expected = {
       "/": {
-        "components": [FlatRootComponent],
-        "stores": [FlatRootComponent.stores]
+        "components": [FlatRootComponent]
       }
     };
     assert.deepEqual(generateRouteMap(flatRoutes), expected);
@@ -98,16 +97,13 @@ describe('Route map', () => {
   it('should return properly nested route map for component with sub-routes', () => {
     const expected = {
       "/": {
-        components: [ RootComponent, IndexComponent ],
-        stores: [ RootComponent.stores, IndexComponent.stores ]
+        components: [ RootComponent, IndexComponent ]
       },
       "/posts": {
-        components: [ RootComponent, PostsComponent ],
-        stores: [ RootComponent.stores, PostsComponent.stores ]
+        components: [ RootComponent, PostsComponent ]
       },
       "/posts/:id": {
-        components: [ RootComponent, PostComponent ],
-        stores: [ RootComponent.stores, PostComponent.stores ]
+        components: [ RootComponent, PostComponent ]
       }
     };
     assert.deepEqual(generateRouteMap(nestedRoutes), expected);
@@ -116,8 +112,7 @@ describe('Route map', () => {
   it('should return stores as empty object if stores function is not defined', () => {
     const expected = {
       "/": {
-        "components": [SimpleComponent],
-        "stores": [{}]
+        "components": [SimpleComponent]
       }
     };
 
@@ -127,12 +122,10 @@ describe('Route map', () => {
   it('should return properly indexed stores array even if parent component does not have any stores', () => {
     const expected = {
       "/": {
-        "components": [SimpleRoutesComponent],
-        "stores": [{}]
+        "components": [SimpleRoutesComponent]
       },
       "/posts": {
-        "components": [SimpleRoutesComponent, PostsComponent],
-        "stores": [{}, PostsComponent.stores]
+        "components": [SimpleRoutesComponent, PostsComponent]
       }
     };
     assert.deepEqual(generateRouteMap(noParentStoresRoutes), expected);
