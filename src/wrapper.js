@@ -10,7 +10,8 @@ export default function CerebellumReact(Cerebellum, React, opts={}, context={}) 
     appId: options.appId,
     prependTitle: options.prependTitle,
     storeId: options.storeId,
-    containerComponent: options.containerComponent
+    containerComponent: options.containerComponent,
+    convertProps: options.convertProps
   });
 
   return Cerebellum(options, context);
