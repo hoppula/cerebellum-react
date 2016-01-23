@@ -22,12 +22,12 @@ class Document {
     }
   }
 
-  render(React, component) {
+  render(ReactDOM, component) {
     if (this.environment === "server") {
-      this.document(`#${this.appId}`).html(React.renderToString(component));
+      this.document(`#${this.appId}`).html(ReactDOM.renderToString(component));
       return this.document.html();
     } else {
-      React.render(component, this.document.getElementById(this.appId));
+      ReactDOM.render(component, this.document.getElementById(this.appId));
       return this.document.documentElement.outerHTML;
     }
   }

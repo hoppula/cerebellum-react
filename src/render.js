@@ -8,7 +8,7 @@ import {
   renderNestedComponents
 } from './helpers';
 
-function createRender(React, options={}) {
+function createRender(React, ReactDOM, options={}) {
   return function render(doc, routeComponent, request) {
     const document = new Document({
       document: doc,
@@ -55,7 +55,7 @@ function createRender(React, options={}) {
         document.snapshot = store.snapshot();
 
         return resolve(
-          document.render(React, containerComponent)
+          document.render(ReactDOM, containerComponent)
         );
 
       }).catch(reject);

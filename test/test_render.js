@@ -1,5 +1,6 @@
 import assert from 'assert';
 import React from 'react';
+import ReactDOM from 'react-dom/server';
 import cheerio from 'cheerio';
 import createRender from '../render';
 import 'native-promise-only';
@@ -50,7 +51,7 @@ describe('Render', () => {
       stores: [RootComponent.stores, ChildComponent.stores]
     };
 
-    const render = createRender(React, {
+    const render = createRender(React, ReactDOM, {
       storeId: "test",
       appId: "app",
       prependTitle: "App - "

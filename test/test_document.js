@@ -1,7 +1,14 @@
 import assert from 'assert';
 import cheerio from 'cheerio';
 import React from 'react';
+import ReactDOM from 'react-dom/server';
 import Document from '../dist/document';
+
+class TestComponent extends React.Component {
+  render() {
+    return <div className="component">Content</div>;
+  }
+}
 
 let doc, document;
 
@@ -28,12 +35,7 @@ describe('Document', () => {
   });
 
   it('should render', () => {
-    const component = class extends React.Component {
-      render() {
-        return <div className="component">Content</div>;
-      }
-    }
-    const html = cheerio.load(document.render(React, React.createElement(component)));
+    const html = cheerio.load(document.render(ReactDOM, React.createFactory(TestComponent)()));
     assert.equal(html(".component").html(), "Content");
   });
 });

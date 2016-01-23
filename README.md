@@ -14,6 +14,7 @@ With `containerComponent` option you can create a layout component that can e.g.
 
 ```javascript
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Client from 'cerebellum/client';
 import Cerebellum from 'cerebellum-react'
 import options from './options';
@@ -26,7 +27,7 @@ options.containerComponent = (store, component, props) => {
   });
 };
 
-Cerebellum(Client, React, options);
+Cerebellum(Client, React, ReactDOM, options);
 ```
 
 ## cerebellum-react/route-handler
@@ -91,7 +92,7 @@ If your app does not need immutable data structures, you can convert all props t
 ```javascript
 import createRender from 'cerebellum-react/render'
 
-options.render = createRender(React, {
+options.render = createRender(React, ReactDOM, {
   storeId: options.storeId,
   appId: options.appId,
   prependTitle: "My cool app - ",
