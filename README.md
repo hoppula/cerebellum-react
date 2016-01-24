@@ -20,9 +20,9 @@ import Cerebellum from 'cerebellum-react'
 import options from './options';
 
 options.prependTitle = "urls - ";
-options.containerComponent = (store, component, props) => {
+options.containerComponent = (store, component) => {
   return Layout({
-    createComponent: () => { return component() },
+    children: component,
     store: store
   });
 };
@@ -96,9 +96,9 @@ options.render = createRender(React, ReactDOM, {
   storeId: options.storeId,
   appId: options.appId,
   prependTitle: "My cool app - ",
-  containerComponent: (store, component, props) => {
+  containerComponent: (store, component) => {
     return Layout({
-      createComponent: () => { return component(props) },
+      children: component,
       store: store
     });
   }

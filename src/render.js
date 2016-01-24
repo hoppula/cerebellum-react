@@ -48,7 +48,7 @@ function createRender(React, ReactDOM, options={}) {
 
         const nestedRender = renderNestedComponents(React, routeComponent.components, propsList);
         const containerComponent = typeof options.containerComponent === "function"
-          ? options.containerComponent.call(this, store, nestedRender)
+          ? options.containerComponent.call(this, store, nestedRender())
           : nestedRender();
 
         document.title = title;
